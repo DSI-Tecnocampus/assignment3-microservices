@@ -22,8 +22,8 @@ cd product
 docker build --no-cache -t product .
 docker images | grep product-service
 docker rm -f my-product-server
- docker logs my-product-service -f
+docker logs my-product-service -f
 
 docker run -d -p8080:8080 -e "SPRING_PROFILES_ACTIVE=docker" --link docker-mysql:mysql --name my-product-service product
 
- docker run -d -p8080:8080 -e "SPRING_datasource_url=jdbc:mysql://docker-mysql:3306/product" --link docker-mysql:mysql --name my-product-service product
+docker run -d -p8080:8080 -e "SPRING_datasource_url=jdbc:mysql://docker-mysql:3306/product" --link docker-mysql:mysql --name my-product-service product

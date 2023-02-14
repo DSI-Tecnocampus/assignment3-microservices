@@ -5,31 +5,43 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
 @Service
 public class ApplicationController {
 
-    private RestTemplate restTemplate;
+    private WebClient webClient;
 
     private String productServiceUrl;
 
-    public ApplicationController(RestTemplate restTemplate,
+    public ApplicationController(WebClient webClient,
         @Value("${app.product-service.host}") String productServiceHost,
         @Value("${app.product-service.port}") int productServicePort)
     {
-        this.restTemplate = restTemplate;
+        this.webClient = webClient;
         productServiceUrl = "http://" + productServiceHost + ":" + productServicePort + "/products";
     }
 
     public void createProduct(Product product) {
-        restTemplate.postForObject(productServiceUrl, product, String.class);
+        webClient.post()
+                .uri(productServiceUrl)
+                .bodyValue(product)
+                //.body(Mono.just(product), Product.class)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
     }
 
     public List<Product> getProducts() {
-        var result = restTemplate.exchange(productServiceUrl, HttpMethod.GET, null, new ParameterizedTypeReference<List<Product>>() {});
-        return result.getBody();
+        List<Product> products = webClient.get()
+                .uri(productServiceUrl)
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<Product>>() {})
+                .block();
+
+        return products;
     }
 }

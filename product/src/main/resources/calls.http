@@ -1,0 +1,38 @@
+###
+http://localhost:7001/products
+
+###
+POST http://localhost:7001/products
+content-type: application/json
+
+{
+  "name": "Chatbot",
+  "description": "The best IA ever"
+}
+
+### calling front
+GET http://localhost:7000/products
+
+
+###
+POST http://localhost:7000/products
+content-type: application/json
+
+{
+  "name": "Chatbot",
+  "description": "The best IA ever"
+}
+
+
+### calling dockerized
+GET http://localhost:8080/products
+
+
+###
+POST http://localhost:8080/products
+content-type: application/json
+
+{
+  "name": "Chatbot",
+  "description": "The best IA ever"
+}

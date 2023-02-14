@@ -3,26 +3,25 @@
 Assignments 3 and 4 will consist on implementing an (simple) application with microservices. In this assignment we will
 build four microservices that will communicate in a synchronous request-response fashion (using REST). 
 
-We will divide this assignment in two parts (weeks):
-1. **First week**: Build the four microservices with the composite one communicating with the other three though a RestTemplate. Each microservice
+We will divide this assignment in to two parts (weeks):
+1. **First week**: Build the four microservices with the composite one communicating with the other three though a WebClient. Each microservice
    having its own H2 database
    
 1. **Second week:** Put each microservice on its own Docker container. We will also have a MySql database manager on a Docker container and all
    microservices will use it as a database. In the real world, each microservice would connect to a different database manager
-   but in order to save memory we will use a single database manager. Each microservie will use its own table with no references to the others.
-   However, you could also explor if it feasible that each microservice connects to a different
-   database within the manager (mysql> create database *microservice-name*)
+   but in order to save memory we will use a single database manager. Each microservice will use its own table with no references to the others.
+   However, you could also explore if it feasible that each microservice connects to a different
+   database within the same manager (mysql> create database *microservice-name*)
 
 ## The MicrosSimple mini-example
-In this example you'll find two services, one per module, where each module is a Spring Boot applications. 
+In this repository example you'll find two services, one per module, where each module is a Spring Boot application. 
 
 ### The services
-There are two services: **product** and **front**. The former just reads and writes products to the database while the later just calls
-the former using a restTemplate (Synchronous request-response communication).
+There are two services: **product** and **front**. The former just reads and writes products to the database while the latter just calls
+the former using a WebClient (Synchronous request-response communication).
 
 ### pom.xml files
-You'll see that both microservices have the microsSimple as parent while microsSimple has the spring boot dependency as parent. It's just a bit different
-from what we did with the modules in the Hexagonal exercise.
+You'll see that both microservices have the microsSimple as parent while microsSimple has the spring boot dependency as parent. 
 
 ### Configuration files (application.yml)
 Note that the **product** configuration file reads that it will use the port 7001 of the localhost and that it uses the 
@@ -30,7 +29,7 @@ default database (since it has the h2 dependency and no database is defined). It
 where it states that it will use the port 8080 and that it uses a mysql database. We'll see that this database will run locally in a 
 docker container.
 
-The **front** configuration file also has a default profile that states the port 7000 of the localhost and host and port to find
+The **front** configuration file also has a default profile that states the port 7000 of the localhost as host and port to find
 the *product* service. It also has different port and host values for the *docker* profile.
 
 ### Docker
@@ -38,9 +37,9 @@ This example is also prepared to run in docker containers. Note that both **fron
 defined how to run them in a docker container each.
 
 The root project (MicrosSimple) also has a file called docker-compose.yml that is used to run the above mentioned containers and also
-creats an additional one with the mysql database.
+creates an additional one with the mysql database.
 
-We'll got through these files in more detail below
+We'll go through these files in more detail below
    
 ## The Microservices (or what you need to do)
 We will have four microservices. One to manage **products**, another no manage product **reviews**, and a third one to manage 
