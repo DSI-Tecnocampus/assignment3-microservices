@@ -42,7 +42,7 @@ creates an additional one with the mysql database.
 We'll go through these files in more detail below
    
 ## The Microservices (or what you need to do)
-We will have four microservices. One to manage **products**, another no manage product **reviews**, and a third one to manage 
+We will have four microservices. One to manage **products**, another to manage product **reviews**, and a third one to manage 
 product **recommendations**. The last one is going to **compose** the product: product + reviews + recommendations
 
 ### Product Service
