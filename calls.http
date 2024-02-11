@@ -1,0 +1,11 @@
+###
+GET http://localhost:7000/products
+
+###
+POST http://localhost:7000/products
+content-type: application/json
+
+{
+    "name": "New Product",
+    "description": "The newest product in market"
+}
